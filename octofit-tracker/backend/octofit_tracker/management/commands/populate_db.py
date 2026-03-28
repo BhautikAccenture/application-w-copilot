@@ -29,8 +29,8 @@ class Command(BaseCommand):
             {'name': 'Clark Kent', 'email': 'superman@dc.com', 'team': 'dc'},
         ]
         with connection.cursor() as cursor:
-            cursor.db_conn['octofit_tracker_user'].insert_many(users)
-            cursor.db_conn['octofit_tracker_user'].create_index('email', unique=True)
+            cursor.db_conn['users'].insert_many(users)
+            cursor.db_conn['users'].create_index('email', unique=True)
 
         # Teams
         teams = [
@@ -38,7 +38,7 @@ class Command(BaseCommand):
             {'name': 'dc', 'members': ['batman@dc.com', 'superman@dc.com']},
         ]
         with connection.cursor() as cursor:
-            cursor.db_conn['octofit_tracker_team'].insert_many(teams)
+            cursor.db_conn['teams'].insert_many(teams)
 
         # Activities
         activities = [
@@ -48,7 +48,7 @@ class Command(BaseCommand):
             {'user_email': 'superman@dc.com', 'activity': 'Flying', 'duration': 60},
         ]
         with connection.cursor() as cursor:
-            cursor.db_conn['octofit_tracker_activity'].insert_many(activities)
+            cursor.db_conn['activities'].insert_many(activities)
 
         # Leaderboard
         leaderboard = [
@@ -56,7 +56,7 @@ class Command(BaseCommand):
             {'team': 'dc', 'points': 85},
         ]
         with connection.cursor() as cursor:
-            cursor.db_conn['octofit_tracker_leaderboard'].insert_many(leaderboard)
+            cursor.db_conn['leaderboard'].insert_many(leaderboard)
 
         # Workouts
         workouts = [
@@ -66,6 +66,6 @@ class Command(BaseCommand):
             {'user_email': 'superman@dc.com', 'workout': 'Squats', 'reps': 200},
         ]
         with connection.cursor() as cursor:
-            cursor.db_conn['octofit_tracker_workout'].insert_many(workouts)
+            cursor.db_conn['workouts'].insert_many(workouts)
 
         self.stdout.write(self.style.SUCCESS('Database populated with test data!'))
