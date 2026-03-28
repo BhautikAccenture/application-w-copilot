@@ -2,6 +2,7 @@ from rest_framework import viewsets, routers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+import os
 from .models import User, Team, Activity, Leaderboard, Workout
 from .serializers import UserSerializer, TeamSerializer, ActivitySerializer, LeaderboardSerializer, WorkoutSerializer
 
@@ -27,10 +28,30 @@ class WorkoutViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def api_root(request, format=None):
+    """
+    API root endpoint.
+    
+    For Codespace:
+    - Returns HTTPS URLs for endpoints accessed via $CODESPACE_NAME-8000.app.github.dev
+    - Format: https://$CODESPACE_NAME-8000.app.github.dev/api/[component]/
+    
+    For localhost:
+    - Returns HTTP URLs for local development
+    """
+    # Check if accessed via codespace domain
+    host = request.get_host()
+    is_codespace = 'app.github.dev' in host
+    
+    # Build base URL with proper protocol for codespace
+    if is_codespace:
+        base_url = f"https://{host}"
+    else:
+        base_url = request.build_absolute_uri('/').rstrip('/')
+    
     return Response({
-        'users': reverse('user-list', request=request, format=format),
-        'teams': reverse('team-list', request=request, format=format),
-        'activities': reverse('activity-list', request=request, format=format),
-        'leaderboard': reverse('leaderboard-list', request=request, format=format),
-        'workouts': reverse('workout-list', request=request, format=format),
+        'users': f"{base_url}/api/users/",
+        'teams': f"{base_url}/api/teams/",
+        'activities': f"{base_url}/api/activities/",
+        'leaderboard': f"{base_url}/api/leaderboard/",
+        'workouts': f"{base_url}/api/workouts/",
     })
