@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Table, Spinner, Alert } from 'react-bootstrap';
 
 function Leaderboard() {
+  // API endpoint: https://{CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
