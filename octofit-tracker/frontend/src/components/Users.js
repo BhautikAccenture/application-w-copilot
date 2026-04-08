@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Table, Spinner, Alert } from 'react-bootstrap';
 
 function Users() {
+  // API endpoint for users data
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
